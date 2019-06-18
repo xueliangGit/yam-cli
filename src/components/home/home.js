@@ -52,6 +52,8 @@ class Home extends Yam {
         <p >{this.date}</p>
         <date-picker showzg change={this.change.bind(this)} ref='datePicker' />
         <data-picker change={this.change.bind(this)} dataChange={this.dataChange.bind(this)} ref='dataPicker' />
+        <p>与vue结合</p>
+        <iframe style='width: 100vw;height:50vh' scrolling='no' title='yamjs and vue' src='//codepen.io/xueliang/embed/PrzVOj/?height=265&theme-id=0&default-tab=js,result' frameborder='no' allowtransparency='true' allowfullscreen='true' />
       </div>
     )
   }

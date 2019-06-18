@@ -1,7 +1,6 @@
 @import '../base.stylus'
 [root]{
   text-align center
-  padding  50px
   font-size: 18px
 }
 .fs-12{

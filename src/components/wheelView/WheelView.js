@@ -14,7 +14,8 @@ const lineHeight = 40
 class WheelView extends Yam {
   $data () {
     return {
-      data: []
+      data: [],
+      gzName: ''
     }
   }
   $updated () {
@@ -118,7 +119,7 @@ class WheelView extends Yam {
         {
           Array.isArray(this.data) ? this.data.map((item, i) => {
             // 循环把数据显示出来
-            return <div className={this.index === i ? 'active item' : 'item'}>{item} {this.index === i ? this.gzName : ''}</div>
+            return <div className={this.index === i ? 'active item' : 'item'}>{item} {this.index === i ? this.gzName || '' : ''}</div>
           }) : ''
         }
       </div>

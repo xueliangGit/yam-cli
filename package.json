@@ -79,7 +79,7 @@
     "eslint-plugin-react": "^7.13.0",
     "jsx-parser": "^1.0.8",
     "lodash": "^4.17.11",
-    "yamjs": "0.0.10"
+    "yamjs": "0.0.15"
   },
   "engines": {
     "node": ">= 6.0.0",

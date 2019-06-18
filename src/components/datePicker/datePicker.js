@@ -1,6 +1,6 @@
 import Yam, { Component } from 'yamjs'
 // eslint-disable-next-line no-unused-vars
-import WheelView from './WheelView'
+import WheelView from '../wheelView/WheelView'
 import calendar from './daytool'
 @Component({
   tagName: 'date-picker',
@@ -108,10 +108,10 @@ class datePicker extends Yam {
     this.emitProp('change', this.showDate)
   }
   hide () {
-    this.slideOut('bottom', this.$div)
+    this.slideOut('bottom', this.$dom)
   }
   show () {
-    this.slideIn('bottom', this.$div)
+    this.slideIn('bottom', this.$dom)
   }
   onDataChange (type, index) {
     console.log('onDataChange', type + '--->' + index)

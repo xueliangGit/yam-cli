@@ -23,8 +23,11 @@ module.exports = merge(common, {
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
+        warnings: false,
+        parallel: true,
+        cache: true,
         compress: {
-          warnings: false
+          // warnings: false,
         }
       },
       sourceMap: config.build.productionSourceMap,

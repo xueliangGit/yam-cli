@@ -5,11 +5,14 @@ const path = require('path')
 const common = require('./webpack.common.js')
 const config = require('../config')
 const utils = require('./utils')
+const packageyam = require('yamjs/package.json')
+const package = require('../package.json')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = merge(common, {
   mode: 'production',
   output: {
@@ -21,6 +24,7 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env': 'production'
     }),
+
     new UglifyJsPlugin({
       uglifyOptions: {
         warnings: false,
@@ -66,40 +70,20 @@ module.exports = merge(common, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    new webpack.BannerPlugin(
+      {
+        banner: `Yam.js v${packageyam.version}
+(c) 2019-${(new Date()).getFullYear()} xuxueliang
+Released under the MIT License.
+lastTime:${new Date()}
+build with YAM-CLI - v${package.version}`, // 要输出的注释内容
+        test: /vendors/,
+        entryOnly: !0 // 即是否只在入口 模块 文件中添加注释；
+      }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
     new webpack.optimize.ModuleConcatenationPlugin(),
-    // split vendor js into its own file
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    //   minChunks (module) {
-    //     // any required modules inside node_modules are extracted to vendor
-    //     return (
-    //       module.resource &&
-    //       /\.js$/.test(module.resource) &&
-    //       module.resource.indexOf(
-    //         path.join(__dirname, '../node_modules')
-    //       ) === 0
-    //     )
-    //   }
-    // }),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'manifest',
-    //   minChunks: Infinity
-    // }),
-    // This instance extracts shared chunks from code splitted chunks and bundles them
-    // in a separate chunk, similar to the vendor chunk
-    // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'app',
-    //   async: 'vendor-async',
-    //   children: true,
-    //   minChunks: 3
-    // }),
-
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -107,25 +91,22 @@ module.exports = merge(common, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    process.env.analyz?new BundleAnalyzerPlugin():function(){}
   ],
   optimization: {
+    // split vendor js into its own file
     splitChunks: {
       cacheGroups: {
-        commons: {
-          name: 'commons',
-          chunks: 'initial',
-          minChunks: 2
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
         },
         app: {
           name: 'app',
-          chunks: 'async',
-          minChunks: 3
-        },
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          name: 'vendor'
+          chunks: 'initial',
+          minChunks: 2
         }
       }
     }

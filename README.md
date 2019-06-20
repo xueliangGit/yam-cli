@@ -14,3 +14,5 @@ YamJS 一个webComponent的渲染函数组件;兼容非webComponent渲染,是一
   # 分析
   yarn analyz
 ```
+## yamjs版本升级 `npm i yamjs@latest -S`
+ 

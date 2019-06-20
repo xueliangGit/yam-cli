@@ -1,6 +1,6 @@
 {
   "name": "yam-cli",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "yamjs is a basecomponents for html,it can make your can write a components and run any where such as html,vue,react eg.",
   "main": "",
   "scripts": {
@@ -81,7 +81,7 @@
     "eslint-plugin-react": "^7.13.0",
     "jsx-parser": "^1.0.8",
     "lodash": "^4.17.11",
-    "yamjs": "0.0.20"
+    "yamjs": "^0.1.3"
   },
   "engines": {
     "node": ">= 6.0.0",

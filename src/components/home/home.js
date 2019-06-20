@@ -9,10 +9,12 @@ import '../dataPicker/dataPicker'
 class Home extends Yam {
   $data () {
     return {
-      date: ''
+      date: '',
+      showzg: false
     }
   }
   showDete () {
+    this.showzg = !this.showzg
     this.$refs.datePicker.show()
   }
   showDeta () {
@@ -62,7 +64,7 @@ class Home extends Yam {
         <div className='' onClick={this.showDeta.bind(this)}>点击我唤起数据拾起器</div>
         <p className='fs-12 c888'>每选择一个随机显示下一列数据</p>
         <p >{this.date}</p>
-        <date-picker showzg change={this.change.bind(this)} ref='datePicker' />
+        <date-picker showzg={this.showzg} change={this.change.bind(this)} ref='datePicker' />
         <data-picker change={this.change.bind(this)} dataChange={this.dataChange.bind(this)} ref='dataPicker' />
         {this.andOther()}
       </div>

@@ -8,17 +8,19 @@ const decompress = require('decompress')
 const childProcess = require('child_process')
 const ora = require('ora')
 const spinner = ora('Loading unicorns')
+const packageConf = require('../package.json')
 function down (appName, server) {
   let bspath = process.cwd()
-  const decompressFolderPath = path.join(__dirname, '../contents', server.name + '-' + server.version) // your decompress folder
+  var name_ = server.name + '-' + server.version
+  const decompressFolderPath = path.join(__dirname, '../contents', name_) // your decompress folder
   const destPath = path.join(bspath, appName)
   if (fs.pathExistsSync(decompressFolderPath)) {
     spinner.text = '本地缓存项目已是最新，开始安装...'
     fs.copySync(decompressFolderPath + '/yamjs', destPath)
-    installFn(appName, server)
+    installFn(appName, server, destPath)
   } else {
     spinner.text = '正在下载最新项目最新demo，请稍后...'
-    var req = https.request(server.path, function (res) {
+    var req = https.request(server.link, function (res) {
       const zipFilePath = path.join(__dirname, '../zip/', server.name + '.zip')
       const writeStream = fs.createWriteStream(zipFilePath)
       res.on('data', function (chunk) {
@@ -32,7 +34,11 @@ function down (appName, server) {
         decompress(zipFilePath, decompressFolderPath).then(files => {
           fs.copySync(decompressFolderPath + '/yamjs', destPath)
           spinner.text = '下载成功'
-          installFn(appName, server)
+          installFn(appName, server, destPath)
+        }).catch(e => {
+          spinner.text = '下载失败'
+          spinner.stop()
+          console.log(chalk.red(server.link + ':' + name_ + '.zip下载失败,请联系邮件(xuxueliang@myhug.cn)作者进行修复'))
         })
       })
     })
@@ -47,24 +53,24 @@ function down (appName, server) {
     req.end()
   }
 }
-function installFn (path, server) {
+function installFn (path, server, destPath) {
   let cmd = 'cd ' + path + '&& npm i'
-  spinner.text = '正在安装依赖，请稍后...'
+  spinner.text = '项目创建成功，正在安装依赖，请稍后...'
   childProcess.exec(cmd, function (err, stdout, stderr) {
     if (err) {
       spinner.stop()
       console.log('项目依赖安装失败，请手动安装')
+      console.log('手动安装成功后，请把lib内文件夹复制到node_modules文件夹内')
       process.exit(1)
     }
+    fs.copySync(destPath + '/lib', destPath + '/node_modules')
+    fs.removeSync(destPath + '/lib')
     spinner.stop()
-    console.log('项目建立成功')
-    showinfo()
-    if (server.msg) {
-      console.log(chalk.redBright('     ' + server.msg))
-    }
+    console.log('项目依赖安装成功')
+    showinfo(path)
   })
 }
-function getConf (appName) {
+function getConf (appName, randomNum) {
   spinner.start()
   if (fs.pathExistsSync(path.join(process.cwd(), appName))) {
     spinner.stop()
@@ -72,16 +78,21 @@ function getConf (appName) {
     process.exit(0)
   }
   spinner.text = '正在获取网络最新版本信息...'
-  let req = http.get(conf.conf, function (res) {
+  let req = http.get(conf.conf + '?cli_v=' + packageConf.version + '&key=' + randomNum, function (res) {
     var resData = ''
     res.on('data', function (data) {
       resData += data
     })
     res.on('end', function () {
       let server = JSON.parse(resData)
-      spinner.text = '获取成功开始安装...'
+      spinner.text = '获取配置信息开始下载安装包...'
       fs.writeFile('../conf/server.json', resData, function () {
-        down(appName, server)
+        if (server.code == 200) {
+          down(appName, server)
+        } else {
+          spinner.stop()
+          console.log(chalk.red(server.msg))
+        }
       })
     })
     req.on('error', function (e) {
@@ -102,15 +113,17 @@ function getConf (appName) {
 }
 module.exports = getConf
 function showinfo (errInfo = '') {
-  if (errInfo)console.log(chalk.red(`ERROR: ${errInfo}`))
+  console.log(chalk.gray('    【' + errInfo + '】项目创建成功'))
+  console.log(' the next:')
   console.log()
-  console.log(' Examples:')
+  console.log('    cd ' + errInfo)
   console.log()
   console.log(chalk.gray('    # dev'))
   console.log('    $ yarn start ')
   console.log()
   console.log(chalk.gray('    # build'))
   console.log('    $ yarn build ')
+  console.log()
   console.log(chalk.gray('    # analyz'))
   console.log('    $ yarn analyz ')
   console.log()

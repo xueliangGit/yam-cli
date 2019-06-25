@@ -12,14 +12,14 @@ const strBy = ['当你遇到难点的时候，你应该庆幸，你又要提高�
  * Usage.
  */
 program
-  .command('creat [name]')
+  .command('creat [name] [randomNum]')
   .description('Use configuration files')
 // .alias('conf')
-  .action(function (name, ...other) {
+  .action(function (name, randomNum, ...other) {
     if (!name) {
       console.log(chalk.redBright('请输入项目名称'))
     } else {
-      doUrl('creat', name)
+      doUrl('creat', name, randomNum)
     }
   }).on('--help', function () {
     showinfo()
@@ -37,10 +37,10 @@ function make_red (txt) {
 function getStr () {
   return chalk.gray(' \n', strBy[parseInt(Math.random() * strBy.length)], '  --by 无声', ' \n')
 }
-function doUrl (type, paths, floderName, doStyle) {
+function doUrl (type, paths, randomNum, doStyle) {
   switch (type) {
     case 'creat':
-      down(paths)
+      down(paths, randomNum)
       break
     default:
       showinfo('uncaught command')

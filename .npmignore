@@ -1,0 +1,8 @@
+node_modules
+*.diff
+*.patch
+.svn/
+.git/
+*.zip
+demo/
+contents/

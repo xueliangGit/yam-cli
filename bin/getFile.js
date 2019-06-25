@@ -100,8 +100,8 @@ function getConf (appName, randomNum) {
       let server
       try {
         server = require('../conf/server.json')
-        spinner.text = '网络请求失败，本次建立项目使用本地缓存'
         console.log(chalk.red('网络请求失败，本次建立项目使用本地缓存'))
+        spinner.text = '网络请求失败，本次建立项目使用本地缓存'
         down(appName, server)
       } catch (e) {
         spinner.stop()

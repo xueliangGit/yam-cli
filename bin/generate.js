@@ -12,14 +12,14 @@ const strBy = ['当你遇到难点的时候，你应该庆幸，你又要提高�
  * Usage.
  */
 program
-  .command('creat [name] [randomNum]')
+  .command('create [name] [randomNum]')
   .description('Use configuration files')
 // .alias('conf')
   .action(function (name, randomNum, ...other) {
     if (!name) {
       console.log(chalk.redBright('请输入项目名称'))
     } else {
-      doUrl('creat', name, randomNum)
+      doUrl('create', name, randomNum)
     }
   }).on('--help', function () {
     showinfo()
@@ -39,7 +39,7 @@ function getStr () {
 }
 function doUrl (type, paths, randomNum, doStyle) {
   switch (type) {
-    case 'creat':
+    case 'create':
       down(paths, randomNum)
       break
     default:
@@ -53,10 +53,7 @@ function showinfo (errInfo = '') {
   console.log(' Examples:')
   console.log()
   console.log(chalk.gray('    # Use of links'))
-  console.log('    $ HDC url [path]')
-  console.log()
-  console.log(chalk.gray('    # Use configuration files'))
-  console.log('    $ HDC conf <path>')
+  console.log('    $ yamjs create [path]')
   console.log()
   console.log()
 }

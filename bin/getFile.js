@@ -1,3 +1,9 @@
+/*
+ * @Author: xuxueliang
+ * @Date: 2019-06-20 19:22:01
+ * @LastEditors: xuxueliang
+ * @LastEditTime: 2019-08-13 15:32:08
+ */
 const https = require('https')
 const http = require('http')
 const path = require('path')
@@ -16,8 +22,16 @@ function down (appName, server) {
   const destPath = path.join(bspath, appName)
   if (fs.pathExistsSync(decompressFolderPath)) {
     spinner.text = '本地缓存项目已是最新，开始安装...'
-    fs.copySync(decompressFolderPath + '/yamjs', destPath)
-    installFn(appName, server, destPath)
+    try {
+      fs.copySync(decompressFolderPath + '/yamjs', destPath)
+      installFn(appName, server, destPath)
+    } catch (e) {
+      spinner.text = '创建失败'
+      spinner.stop()
+      console.log(chalk.red('yamjs:创建失败。' + `
+      请运行[ yamjs clean ] 命令后再次尝试创建项目，若还是失败请联系邮件(xu.xueliang@163.com)作者进行修复`))
+      // console.log(chalk.red('yamjs:' + `请运行[ yamjs clean ] 命令后再次尝试创建项目，若还是失败请联系邮件(xu.xueliang@163.com)作者进行修复`))
+    }
   } else {
     spinner.text = '正在下载最新项目最新demo，请稍后...'
     var req = https.request(server.link, function (res) {
@@ -38,7 +52,8 @@ function down (appName, server) {
         }).catch(e => {
           spinner.text = '下载失败'
           spinner.stop()
-          console.log(chalk.red(server.link + ':' + name_ + '.zip下载失败,请联系邮件(xuxueliang@myhug.cn)作者进行修复'))
+          console.log(chalk.red('yamjs:' + name_ + '.zip下载失败,请联系邮件(xu.xueliang@163.com)作者进行修复'))
+          console.log(chalk.red('yamjs:' + name_ + '.zip下载失败,请联系邮件(xu.xueliang@163.com)作者进行修复'))
         })
       })
     })

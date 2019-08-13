@@ -1,10 +1,16 @@
-#!/usr/bin/env node
-
+#!/usr/bin / env node
+/*
+ * @Author: xuxueliang
+ * @Date: 2019-06-20 18:55:00
+ * @LastEditors: xuxueliang
+ * @LastEditTime: 2019-08-13 15:18:55
+ */
 const program = require('commander')
 const chalk = require('chalk')
 // const HDC = require('../../src/index')
 const path = require('path')
 const down = require('./getFile')
+const clean = require('./clean')
 const fs = require('fs-extra')
 const strBy = ['当你遇到难点的时候，你应该庆幸，你又要提高了！', '喜欢折腾就开始造吧！', '开拓你的思维，没有什么技术难点，只是没有想到而已！', '技能是靠经验打磨出来的！', '前端发展很快，一不留神就会跟不上的；所以请不断学习']
 
@@ -13,8 +19,8 @@ const strBy = ['当你遇到难点的时候，你应该庆幸，你又要提高�
  */
 program
   .command('create [name] [randomNum]')
-  .description('Use configuration files')
-// .alias('conf')
+  .description('create App')
+  // .alias('conf')
   .action(function (name, randomNum, ...other) {
     if (!name) {
       console.log(chalk.redBright('请输入项目名称'))
@@ -23,6 +29,12 @@ program
     }
   }).on('--help', function () {
     showinfo()
+  })
+program
+  .command('clean')
+  .description('clean cache ')
+  .action(function (name) {
+    doUrl('clean', name)
   })
 program
   .command('*')
@@ -42,13 +54,16 @@ function doUrl (type, paths, randomNum, doStyle) {
     case 'create':
       down(paths, randomNum)
       break
+    case 'clean':
+      clean()
+      break
     default:
       showinfo('uncaught command')
       break
   }
 }
 function showinfo (errInfo = '') {
-  if (errInfo)console.log(chalk.red(`ERROR: ${errInfo}`))
+  if (errInfo) console.log(chalk.red(`ERROR: ${ errInfo }`))
   console.log()
   console.log(' Examples:')
   console.log()

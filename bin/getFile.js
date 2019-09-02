@@ -2,7 +2,7 @@
  * @Author: xuxueliang
  * @Date: 2019-06-20 19:22:01
  * @LastEditors: xuxueliang
- * @LastEditTime: 2019-08-13 15:32:08
+ * @LastEditTime: 2019-09-02 18:22:02
  */
 const https = require('https')
 const http = require('http')
@@ -75,11 +75,11 @@ function installFn (path, server, destPath) {
     if (err) {
       spinner.stop()
       console.log('项目依赖安装失败，请手动安装')
-      console.log('手动安装成功后，请把lib内文件夹复制到node_modules文件夹内')
+      // console.log('手动安装成功后，请把lib内文件夹复制到node_modules文件夹内')
       process.exit(1)
     }
-    fs.copySync(destPath + '/lib', destPath + '/node_modules')
-    fs.removeSync(destPath + '/lib')
+    // fs.copySync(destPath + '/lib', destPath + '/node_modules')
+    // fs.removeSync(destPath + '/lib')
     spinner.stop()
     console.log('项目依赖安装成功')
     showinfo(path)

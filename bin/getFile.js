@@ -2,7 +2,7 @@
  * @Author: xuxueliang
  * @Date: 2019-06-20 19:22:01
  * @LastEditors: xuxueliang
- * @LastEditTime: 2019-09-02 19:05:13
+ * @LastEditTime: 2019-09-02 19:10:28
  */
 const https = require('https')
 const http = require('http')
@@ -38,7 +38,6 @@ function down (appName, server) {
       const zipFilePath = path.join(__dirname, '../zip/', server.name + '.zip')
       const writeStream = fs.createWriteStream(zipFilePath)
       res.on('data', function (chunk) {
-        console.log(chunk, server)
         writeStream.write(chunk)
       })
       res.on('end', function (chunk) {
@@ -53,7 +52,6 @@ function down (appName, server) {
         }).catch(e => {
           spinner.text = '下载失败'
           spinner.stop()
-          console.log(chalk.red('yamjs:' + name_ + '.zip下载失败,请联系邮件(xu.xueliang@163.com)作者进行修复'))
           console.log(chalk.red('yamjs:' + name_ + '.zip下载失败,请联系邮件(xu.xueliang@163.com)作者进行修复'))
         })
       })

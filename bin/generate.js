@@ -1,9 +1,10 @@
 #!/usr/bin / env node
+
 /*
  * @Author: xuxueliang
  * @Date: 2019-06-20 18:55:00
  * @LastEditors: xuxueliang
- * @LastEditTime: 2019-08-13 15:18:55
+ * @LastEditTime: 2019-09-02 18:38:50
  */
 const program = require('commander')
 const chalk = require('chalk')
@@ -63,7 +64,7 @@ function doUrl (type, paths, randomNum, doStyle) {
   }
 }
 function showinfo (errInfo = '') {
-  if (errInfo) console.log(chalk.red(`ERROR: ${ errInfo }`))
+  if (errInfo) console.log(chalk.red(`ERROR: ${errInfo}`))
   console.log()
   console.log(' Examples:')
   console.log()

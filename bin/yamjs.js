@@ -1,10 +1,5 @@
-#!/usr/bin / env node
-/*
- * @Author: xuxueliang
- * @Date: 2019-06-20 18:55:00
- * @LastEditors: xuxueliang
- * @LastEditTime: 2019-09-02 18:19:51
- */
+#!/usr/bin/env node
+
 process.title = 'yamjs-cli'
 require('commander')
   .version(require('../package').version, '-v, --version')

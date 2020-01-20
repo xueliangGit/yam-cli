@@ -2,7 +2,7 @@
  * @Author: xuxueliang
  * @Date: 2019-06-20 19:22:01
  * @LastEditors: xuxueliang
- * @LastEditTime: 2019-09-02 19:10:28
+ * @LastEditTime: 2019-09-02 18:22:02
  */
 const https = require('https')
 const http = require('http')
@@ -20,6 +20,8 @@ function down (appName, server) {
   var name_ = server.name + '-' + server.version
   const decompressFolderPath = path.join(__dirname, '../contents', name_) // your decompress folder
   const destPath = path.join(bspath, appName)
+  fs.emptyDirSync(path.join(__dirname, '../contents'))
+  fs.emptyDirSync(path.join(__dirname, '../zip'))
   if (fs.pathExistsSync(decompressFolderPath)) {
     spinner.text = '本地缓存项目已是最新，开始安装...'
     try {

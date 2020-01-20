@@ -3,8 +3,8 @@
 /*
  * @Author: xuxueliang
  * @Date: 2019-06-20 18:55:00
- * @LastEditors: xuxueliang
- * @LastEditTime: 2019-09-02 18:38:50
+ * @LastEditors  : xuxueliang
+ * @LastEditTime : 2020-01-06 00:21:45
  */
 const program = require('commander')
 const chalk = require('chalk')
@@ -64,7 +64,7 @@ function doUrl (type, paths, randomNum, doStyle) {
   }
 }
 function showinfo (errInfo = '') {
-  if (errInfo) console.log(chalk.red(`ERROR: ${errInfo}`))
+  if (errInfo) console.log(chalk.red(`ERROR: ${ errInfo }`))
   console.log()
   console.log(' Examples:')
   console.log()

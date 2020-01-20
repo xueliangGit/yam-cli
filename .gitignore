@@ -3,6 +3,6 @@ node_modules
 *.patch
 .svn/
 .git/
-*.zip
+zip
 demo/
 contents/
